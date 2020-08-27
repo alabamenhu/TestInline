@@ -1,0 +1,32 @@
+{
+  "license": "Artistic-2.0",
+  "build-depends": [
+  ],
+  "source-url": "git://github.com/alabamenhu/DateTimeTimezones.git",
+  "provides": {
+    "Test::Inline": "lib/Test/Inline.pm6",
+  },
+  "tags": [
+    "timezones",
+    "olson",
+    "datetime",
+    "time",
+    "date"
+  ],
+  "support": {
+    "source": "git://github.com/alabamenhu/TestInline.git"
+  },
+  "perl": "6.*",
+  "name": "DateTime::Timezones",
+  "auth": "github:alabamenhu",
+  "version": "0.3",
+  "description": "A module enabling inline tests for Raku modules",
+  "test-depends": [
+    "Test"
+  ],
+  "meta-version": "0",
+  "authors": [
+    "Matthew Stephen STUCKWISCH <mateu@softastur.org>"
+  ]
+
+}
