@@ -1,34 +1,28 @@
 unit module Inline;
 
-# This will eventually probably expanded, hopefully nearly to the extent of regular tests
-class Test {
-    has $.name;
-    has &.sub;
-}
+my Sub @tests;
 
-my Array %tests;
-
+#| Marks a sub as being for internal test purposes
 multi sub trait_mod:<is>(Sub $sub, :$test!) is export {
     die "Inline test subs may not have parameters, but found signature {$sub.signature.gist}."
         if $sub.arity > 0;
 
     my $package-name = $sub.package.^name;
 
-    %tests{$package-name}.push:
-            Test.new(
-                    name => $sub.name,
-                    sub  => $sub
-            );
+    @tests.push: $sub;
 }
 
+#| Calls all subs marked as 'is test' in loaded modules
 sub inline-testing is export(:testing) {
     use Test;
 
     subtest {
-        for %tests.kv -> $package, @tests {
+        for @tests.categorize(*.package.^name).sort(*.key)
+         -> (:key($package), :value(@subs)) {
+
             subtest {
-                for @tests.values -> $test {
-                    subtest { $test.sub.() }, "sub {$test.name}";
+                for @subs.sort(*.name) -> &test {
+                    subtest { test }, "sub {&test.name}";
                 }
             }, "Package $package";
         }
